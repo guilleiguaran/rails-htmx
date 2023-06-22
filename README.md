@@ -7,7 +7,7 @@ Add support for partial responses for HTMX in Ruby on Rails controllers.
 
 Install the gem and add to the application's Gemfile by executing:
 
-    $ bundle add htmx_rails
+    $ bundle add rails-htmx
 
 
 ## Installing HTMX
@@ -43,7 +43,7 @@ already installed.
 
 ## Usage
 
-By default, the `htmx_rails` prvents the rendering of your application layout in
+By default, the `rails-htmx` prvents the rendering of your application layout in
 your controllers and will instead only return the yielded view when the
 `HX-Request` header is present in the requests.
 
