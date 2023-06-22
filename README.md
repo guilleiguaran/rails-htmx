@@ -2,10 +2,12 @@
 
 Add support for partial responses for htmx in Ruby on Rails controllers.
 
+![fullstack-1](https://github.com/guilleiguaran/rails-htmx/assets/160941/8b9307af-111a-4af0-92de-218aac07797f)
+
 
 ## Installation
 
-Install the gem and add to the application's Gemfile by executing:
+Install the gem and add it to the application's Gemfile by executing:
 
     $ bundle add rails-htmx
 
