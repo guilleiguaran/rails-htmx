@@ -14,6 +14,11 @@ Install the gem and add it to the application's Gemfile by executing:
 
 ## Installing htmx
 
+Providing the assets for htmx is out of the scope of this library and
+the assets gems have been deprecated (along with Sprockets) by Rails.
+
+Instead is recommended to install htmx from the official sources:
+
 ### Via CDN
 
 Add the script to your application.html.erb layout file:
