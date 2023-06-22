@@ -1,4 +1,4 @@
-require "htmx"
+require "rails-htmx/helpers"
 
 module Rails
   module Htmx
