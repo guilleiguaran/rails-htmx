@@ -1,6 +1,6 @@
-# HTMX for Rails
+# htmx for Rails
 
-Add support for partial responses for HTMX in Ruby on Rails controllers.
+Add support for partial responses for htmx in Ruby on Rails controllers.
 
 
 ## Installation
@@ -10,7 +10,7 @@ Install the gem and add to the application's Gemfile by executing:
     $ bundle add rails-htmx
 
 
-## Installing HTMX
+## Installing htmx
 
 ### Via CDN
 
@@ -19,6 +19,9 @@ Add the script to your application.html.erb layout file:
 ```html
 <script src="https://unpkg.com/htmx.org@1.9.2" integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h" crossorigin="anonymous"></script>
 ```
+
+Check the [htmx docs](https://htmx.org/docs/#installing) to make sure that you're using the latest
+version of the package
 
 ### Using a JS Bundler (e.g jsbundling-rails or webpacker)
 
@@ -43,12 +46,18 @@ already installed.
 
 ## Usage
 
-By default, the `rails-htmx` prvents the rendering of your application layout in
-your controllers and will instead only return the yielded view when the
-`HX-Request` header is present in the requests.
+By default, the `rails-htmx` prevents the render of the application layout in
+your controllers and instead returns only the yielded view for the
+requests that have the `HX-Request` header present.
+
+For more information about how to use htmx please consult the [htmx docs](https://htmx.org/docs/).
+
+In Rails you might find the [Boosting feature](https://htmx.org/docs/#boosting)
+useful when working with the default Rails views helpers (e.g `form_with`, `link_to`, ...) and the use of
+the `data-` prefix for the helpers (e.g `link_to "Home", root_path, data: { "hx-swap": "outerHTML" }`)
 
 
-## Preventing HTMX requests
+### Preventing htmx requests
 
 In certain cases might want to return a full view (e.g in a login page) instead
 of a partial yielded view, you can do this calling the prevent_htmx!
@@ -63,7 +72,7 @@ method in your controller actions or in an callback:
   end
 ```
 
-## Layouts
+### Custom Layouts
 
 If you have additional content you want to always be returned with your htmx requests,
 you can override `htmx_layout` in your controller and specify a layout to render
@@ -79,4 +88,4 @@ end
 
 
 ## License
-htmx_rails is released under the [MIT License](https://opensource.org/license/mit/).
+rails-htmx is released under the [MIT License](https://opensource.org/license/mit/).
