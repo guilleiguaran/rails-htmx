@@ -57,12 +57,10 @@ By default, the `rails-htmx` prevents the render of the application layout in
 your controllers and instead returns only the yielded view for the
 requests that have the `HX-Request` header present.
 
+Additionally, `rails-htmx` prevents redirects in non-GET requests and
+instead uses the `HX-Location` header to handle the redirects.
+
 For more information about how to use htmx please consult the [htmx docs](https://htmx.org/docs/).
-
-In Rails you might find the [Boosting feature](https://htmx.org/docs/#boosting)
-useful when working with the default Rails views helpers (e.g `form_with`, `link_to`, ...) and the use of
-the `data-` prefix for the helpers (e.g `link_to "Home", root_path, data: { "hx-swap": "outerHTML" }`)
-
 
 ### Preventing htmx requests
 
@@ -93,6 +91,37 @@ class ApplicationController < ActionController::Base
 end
 ```
 
+## Tips
+
+Those are some tips for using htmx with Rails.
+
+### Add the CSRF Token to the htmx requests
+
+Add the `X-CSRF-Token` to the `hx-headers` attributes in your `<body>` tag so it's added by
+default in XHR requests done by htmx:
+
+```erb
+<body hx-headers='{"X-CSRF-Token": "<%= form_authenticity_token =%>"}'>
+```
+
+### Using the data prefix
+
+You can use the `data-` prefix to make easier adding the htmx attributes with the Rails helpers:
+
+```erb
+<%= link_to "Home", root_path, data: { "hx-swap": "outerHTML" } %>
+```
+
+### Boosting Rails helpers
+
+You can use the default Rails helpers without modifications in your markup with the htmx
+[Boosting feature](https://htmx.org/docs/#boosting):
+
+```erb
+<div hx-boost="true">
+  <%= link_to "New post", new_post_path %>
+</div>
+```
 
 ## License
 rails-htmx is released under the [MIT License](https://opensource.org/license/mit/).
