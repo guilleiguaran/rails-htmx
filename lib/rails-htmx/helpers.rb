@@ -14,6 +14,18 @@ module Rails
         rescue_from Rails::Htmx::Unsupported, with: :htmx_unsupported
       end
 
+      def redirect_to(url_options = {}, response_status = {})
+        return_value = super
+
+        if htmx_request? && !request.get?
+          response.headers["HX-Location"] = url_for(url_options)
+          self.status = 204
+          self.response_body = nil
+        end
+
+        return_value
+      end
+
       protected
 
       def htmx_request?

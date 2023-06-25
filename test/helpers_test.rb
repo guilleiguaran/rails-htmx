@@ -11,6 +11,10 @@ class TestController < ActionController::Base
     render plain: "htmlx_request?: #{htmx_request?}"
   end
 
+  def redirect
+    redirect_to root_url
+  end
+
   def no_htmx
     prevent_htmx!
 
@@ -44,5 +48,21 @@ class HelpersTest < Minitest::Test
 
     assert_equal 204, last_response.status
     assert_equal "http://example.org/no_htmx", last_response.headers["HX-Redirect"]
+  end
+
+  def test_redirect_with_get
+    header "HX-Request", "true"
+    get "/redirect"
+
+    assert last_response.redirect?
+    assert_equal "http://example.org/", last_response.headers["Location"]
+  end
+
+  def test_redirect_with_other_method
+    header "HX-Request", "true"
+    delete "/redirect"
+
+    assert_equal 204, last_response.status
+    assert_equal "http://example.org/", last_response.headers["HX-Location"]
   end
 end

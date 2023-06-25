@@ -10,7 +10,10 @@ class TestApp < Rails::Application
   Rails.logger = config.logger
 
   routes.draw do
+    root to: "test#index"
     get "/" => "test#index"
     get "/no_htmx" => "test#no_htmx"
+    delete "/redirect" => "test#redirect"
+    get "/redirect" => "test#redirect"
   end
 end
