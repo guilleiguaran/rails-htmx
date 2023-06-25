@@ -101,7 +101,7 @@ Add the `X-CSRF-Token` to the `hx-headers` attributes in your `<body>` tag so it
 default in XHR requests done by htmx:
 
 ```erb
-<body hx-headers='{"X-CSRF-Token": "<%= form_authenticity_token =%>"}'>
+<body hx-headers='{"X-CSRF-Token": "<%= form_authenticity_token %>"}'>
 ```
 
 ### Using the data prefix
