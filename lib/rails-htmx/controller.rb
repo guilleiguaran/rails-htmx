@@ -4,7 +4,7 @@ module Rails
 
     class Unsupported < Error; end
 
-    module Helpers
+    module Controller
       extend ActiveSupport::Concern
 
       included do

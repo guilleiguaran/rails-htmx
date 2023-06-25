@@ -1,11 +1,11 @@
 require_relative "test_helper"
 require "rack/test"
 require "minitest/autorun"
-require "rails-htmx/helpers"
+require "rails-htmx/controller"
 
 class TestController < ActionController::Base
   include Rails.application.routes.url_helpers
-  include Rails::Htmx::Helpers
+  include Rails::Htmx::Controller
 
   def index
     render plain: "htmlx_request?: #{htmx_request?}"
