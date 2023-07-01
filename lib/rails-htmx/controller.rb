@@ -14,6 +14,11 @@ module Rails
         rescue_from Rails::Htmx::Unsupported, with: :htmx_unsupported
       end
 
+      # The templates for new generated Rails 7.0+ apps use 303 for redirects:
+      # https://github.com/rails/rails/commit/5ed37b35d666b833a
+      # https://github.com/rails/rails/commit/d6715c72c50255ccc
+      #
+      # We might be able to remove this method in the future.
       def redirect_to(url_options = {}, response_status = {})
         return_value = super
 

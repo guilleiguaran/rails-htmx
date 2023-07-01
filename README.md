@@ -57,8 +57,8 @@ By default, the `rails-htmx` prevents the render of the application layout in
 your controllers and instead returns only the yielded view for the
 requests that have the `HX-Request` header present.
 
-Additionally, `rails-htmx` prevents redirects in non-GET requests and
-instead uses the `HX-Location` header to handle the redirects.
+Additionally, `rails-htmx` modify redirects in non-GET and non-POST requests to
+return 303 (See Other) as status code instead of 302 to handle XHR redirects correctly.
 
 For more information about how to use htmx please consult the [htmx docs](https://htmx.org/docs/).
 
