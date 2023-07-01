@@ -17,11 +17,9 @@ module Rails
       def redirect_to(url_options = {}, response_status = {})
         return_value = super
 
-        if htmx_request? && !request.get?
-          response.headers["HX-Location"] = url_for(url_options)
-          self.status = 204
-          self.response_body = nil
-        end
+        # Return 303 to make sure a GET request will be used to display the redirect.
+        # Ref: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/303
+        self.status = 303 if htmx_request? && !request.get? && !request.post?
 
         return_value
       end

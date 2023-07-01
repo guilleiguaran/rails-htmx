@@ -55,14 +55,42 @@ class HelpersTest < Minitest::Test
     get "/redirect"
 
     assert last_response.redirect?
+    assert_equal 302, last_response.status
     assert_equal "http://example.org/", last_response.headers["Location"]
   end
 
-  def test_redirect_with_other_method
+  def test_redirect_with_post
+    header "HX-Request", "true"
+    post "/redirect"
+
+    assert last_response.redirect?
+    assert_equal 302, last_response.status
+    assert_equal "http://example.org/", last_response.headers["Location"]
+  end
+
+  def test_redirect_with_put
+    header "HX-Request", "true"
+    put "/redirect"
+
+    assert last_response.redirect?
+    assert_equal 303, last_response.status
+    assert_equal "http://example.org/", last_response.headers["Location"]
+  end
+
+  def test_redirect_with_patch
+    header "HX-Request", "true"
+    patch "/redirect"
+
+    assert last_response.redirect?
+    assert_equal 303, last_response.status
+    assert_equal "http://example.org/", last_response.headers["Location"]
+  end
+
+  def test_redirect_with_delete
     header "HX-Request", "true"
     delete "/redirect"
 
-    assert_equal 204, last_response.status
-    assert_equal "http://example.org/", last_response.headers["HX-Location"]
+    assert_equal 303, last_response.status
+    assert_equal "http://example.org/", last_response.headers["Location"]
   end
 end
