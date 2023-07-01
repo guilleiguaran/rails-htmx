@@ -13,6 +13,6 @@ class TestApp < Rails::Application
     root to: "test#index"
     get "/" => "test#index"
     get "/no_htmx" => "test#no_htmx"
-    match "/redirect" => "test#redirect", via: :all
+    match "/redirect" => "test#redirect", :via => :all
   end
 end
