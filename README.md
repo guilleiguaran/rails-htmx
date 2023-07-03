@@ -123,5 +123,58 @@ You can use the default Rails helpers without modifications in your markup with 
 </div>
 ```
 
+### Redirect after PUT/PATCH/DELETE (30x status)
+
+Add the `hx-target="body"`, `hx-swap="outerHTML"`, and `hx-push-url="true"` to
+update the body with the content of the document retrieved after
+redirection and push the new URL into the browser location history.
+
+```erb
+<%= button_to "Destroy post", @post, method: :delete, data: { "hx-delete": url_for(@post), "hx-swap": "outerHTML", "hx-target": "body" "hx-push-url": "true"   } %>
+```
+
+### XHR errors handling
+
+by default, non-200 responses are not swapped into the DOM, this
+behavior can be changed using one of the next options:
+
+1. Using the [response-targets extension](https://htmx.org/extensions/response-targets/)
+   and setting the target for the status code, e.g:
+
+    ```html
+    <button hx-post="/register"
+            hx-target="#response-div"
+            hx-target-5*="#serious-errors"
+            hx-target-422="#response-div"
+            hx-target-404="#not-found">
+        Register!
+    </button>
+    ```
+
+   For default Rails forms your might want to set `hx-target-422` to the same value as `hx-target`
+   in that way the form will be swapped with the new form with validation error messages.
+   Check the extension for more details and examples.
+
+2. Handle the `htmx:beforeSwap` event in order to modify the swap
+   behavior:
+
+   ```javascript
+   document.body.addEventListener('htmx:beforeSwap', function(evt) {
+    if(evt.detail.xhr.status === 404){
+        alert("Error: Could Not Find Resource");
+    } else if(evt.detail.xhr.status === 422){
+        // allow 422 responses to swap as we are using this as a signal that
+        // a form was submitted with bad data and want to rerender with the
+        // errors
+        evt.detail.shouldSwap = true;
+
+        // set isError to false to avoid error logging in console
+        evt.detail.isError = false;
+    }
+   });
+   ```
+
+  Check the [htmx docs](https://htmx.org/docs/#modifying_swapping_behavior_with_events) for details
+
 ## License
 rails-htmx is released under the [MIT License](https://opensource.org/license/mit/).
