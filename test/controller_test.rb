@@ -22,7 +22,7 @@ class TestController < ActionController::Base
   end
 end
 
-class HelpersTest < Minitest::Test
+class ControllerTest < Minitest::Test
   include Rack::Test::Methods
 
   def app
