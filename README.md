@@ -24,7 +24,7 @@ Instead is recommended to install htmx from the official sources:
 Add the script to your application.html.erb layout file:
 
 ```html
-<script src="https://unpkg.com/htmx.org@1.9.2" integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/htmx.org@1.9.3" integrity="sha384-lVb3Rd/Ca0AxaoZg5sACe8FJKF0tnUgR2Kd7ehUOG5GCcROv5uBIZsOqovBAcWua" crossorigin="anonymous"></script>
 ```
 
 Check the [htmx docs](https://htmx.org/docs/#installing) to make sure that you're using the latest
