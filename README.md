@@ -91,6 +91,22 @@ class ApplicationController < ActionController::Base
 end
 ```
 
+### The `hx` helper for views.
+
+You can use the `hx` helper to simplify the generation of the attributes
+in your views, e.g:
+
+```erb
+<%= button_to "Update post", @post, method: :delete, data: { "hx-patch": url_for(@post), "hx-swap": "outerHTML", "hx-target": "body" } %>
+```
+
+can be rewritten using the `hx` helper:
+
+```erb
+<%= button_to "Update post", @post, method: :delete, data: hx(patch: url_for(@post), swap: "outerHTML", target: "body") %>
+```
+
+
 ## Tips
 
 Those are some tips for using htmx with Rails.
@@ -130,7 +146,7 @@ update the body with the content of the document retrieved after
 redirection and push the new URL into the browser location history.
 
 ```erb
-<%= button_to "Destroy post", @post, method: :delete, data: { "hx-delete": url_for(@post), "hx-swap": "outerHTML", "hx-target": "body" "hx-push-url": "true"   } %>
+<%= button_to "Destroy post", @post, method: :delete, data: { "hx-delete": url_for(@post), "hx-swap": "outerHTML", "hx-target": "body" "hx-push-url": "true" } %>
 ```
 
 ### XHR errors handling
@@ -150,6 +166,13 @@ behavior can be changed using one of the next options:
         Register!
     </button>
     ```
+
+   or using Rails helpers:
+
+   ```erb
+   <%= button_to "Register", register_path, data:
+        hx(post: register_path, target: "#response-div", "target-5*": "#serious-errors", "target-422": "#response-div" , "target-404": "#not-found") %>
+   ```
 
    For default Rails forms your might want to set `hx-target-422` to the same value as `hx-target`
    in that way the form will be swapped with the new form with validation error messages.
