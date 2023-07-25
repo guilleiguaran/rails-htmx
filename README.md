@@ -41,42 +41,11 @@ Add the htmx.org package using Yarn:
 yarn add htmx.org
 ```
 
-Tip: In order to get the extensions working you need to provide to the extensions a way to understand the
-`htmx` variable, e.g if you are using Rollup you can use the `inject` plugin:
+and then import it on your `app/javascript/application.js`:
 
 ```javascript
-// rollup.config.js
-import resolve from "@rollup/plugin-node-resolve"
-import inject from "@rollup/plugin-inject"
-
-export default {
-  input: "app/javascript/application.js",
-  output: {
-    file: "app/assets/builds/application.js",
-    format: "iife",
-    inlineDynamicImports: true,
-    sourcemap: true
-  },
-  plugins: [
-    resolve(),
-    inject({
-      "htmx.org": "htmx"
-    })
-  ]
-}
+import htmx from "htmx.org"
 ```
-
-and then you can import the extensions in your entry file:
-
-```javascript
-// app/javascript/application.js
-import "htmx.org"
-import "htmx.org/dist/ext/method-override"
-```
-
-This will be fixed by [this pull request](https://github.com/bigskysoftware/htmx/pull/1485) in the htmx repository.
-
-For webpack read the [instructions in the htmx docs](https://htmx.org/docs/#webpack)
 
 ### Using Import Maps (e.g importmap-rails)
 
@@ -86,34 +55,11 @@ Pin the dependency to the into the importmap:
 bin/importmap pin htmx.org
 ```
 
-Tip: In order to get the extensions working you need to pin the extensions in your `config/importmap.rb`
-and provide to the extensions a way to understand the `htmx` variable:
-
-```ruby
-# config/importmap.rb
-# ...
-pin "htmx.org", to: "https://ga.jspm.io/npm:htmx.org@1.9.3/dist/htmx.min.js"
-pin "htmx.org/dist/ext/ajax-header", to: "https://unpkg.com/htmx.org/dist/ext/ajax-header.js"
-pin "htmx.org/dist/ext/method-override", to: "https://unpkg.com/htmx.org/dist/ext/method-override.js"
-```
-
-You need to load `htmx` globally before of importing the extensions, this can be done creating a custom
-file and injecting `htmx` to the window scope on it:
+and then import it on your `app/javascript/application.js`:
 
 ```javascript
-// app/javascript/application.js
-import "./htmx-loader"
-import "htmx.org/dist/ext/method-override"
-```
-
-```javascript
-// app/javascript/htmx-loader.js
 import htmx from "htmx.org"
-window.htmx = htmx
 ```
-
-This will be fixed by [this pull request](https://github.com/bigskysoftware/htmx/pull/1485) in the htmx repository.
-
 
 ## Usage
 
@@ -262,6 +208,77 @@ behavior can be changed using one of the next options:
    ```
 
   Check the [htmx docs](https://htmx.org/docs/#modifying_swapping_behavior_with_events) for details
+
+
+### Using htmx extensions in module environments.
+
+This will be fixed when [this pull request](https://github.com/bigskysoftware/htmx/pull/1485) get merge in the htmx repository.
+Meanwhile we need to inject the htmx variable on the window scope to use htmx extensions:
+
+#### importmap-rails
+
+In order to get the extensions working you need to pin the extensions in your `config/importmap.rb`
+and provide to the extensions a way to understand the `htmx` variable:
+
+```ruby
+# config/importmap.rb
+# ...
+pin "htmx.org", to: "https://ga.jspm.io/npm:htmx.org@1.9.3/dist/htmx.min.js"
+pin "htmx.org/dist/ext/ajax-header", to: "https://unpkg.com/htmx.org/dist/ext/ajax-header.js"
+pin "htmx.org/dist/ext/method-override", to: "https://unpkg.com/htmx.org/dist/ext/method-override.js"
+```
+
+You need to load `htmx` globally before of importing the extensions, this can be done creating a custom
+file and injecting `htmx` to the window scope on it:
+
+```javascript
+// app/javascript/application.js
+import "./htmx-loader"
+import "htmx.org/dist/ext/method-override"
+```
+
+```javascript
+// app/javascript/htmx-loader.js
+import htmx from "htmx.org"
+window.htmx = htmx
+```
+
+#### jsbundling-rails
+
+Tip: In order to get the extensions working you need to inject the `htmx` variable globally,
+e.g if you are using Rollup you can use the `inject` plugin:
+
+```javascript
+// rollup.config.js
+import resolve from "@rollup/plugin-node-resolve"
+import inject from "@rollup/plugin-inject"
+
+export default {
+  input: "app/javascript/application.js",
+  output: {
+    file: "app/assets/builds/application.js",
+    format: "iife",
+    inlineDynamicImports: true,
+    sourcemap: true
+  },
+  plugins: [
+    resolve(),
+    inject({
+      "htmx.org": "htmx"
+    })
+  ]
+}
+```
+
+and then you can import the extensions in your entry file:
+
+```javascript
+// app/javascript/application.js
+import "htmx.org"
+import "htmx.org/dist/ext/method-override"
+```
+
+For webpack(er) read the [instructions in the htmx docs](https://htmx.org/docs/#webpack)
 
 ## License
 rails-htmx is released under the [MIT License](https://opensource.org/license/mit/).
