@@ -224,8 +224,7 @@ and provide to the extensions a way to understand the `htmx` variable:
 # config/importmap.rb
 # ...
 pin "htmx.org", to: "https://ga.jspm.io/npm:htmx.org@1.9.3/dist/htmx.min.js"
-pin "htmx.org/dist/ext/ajax-header", to: "https://unpkg.com/htmx.org/dist/ext/ajax-header.js"
-pin "htmx.org/dist/ext/method-override", to: "https://unpkg.com/htmx.org/dist/ext/method-override.js"
+pin "htmx.org/dist/ext/", to: "https://unpkg.com/htmx.org/dist/ext/"
 ```
 
 You need to load `htmx` globally before of importing the extensions, this can be done creating a custom
@@ -235,6 +234,7 @@ file and injecting `htmx` to the window scope on it:
 // app/javascript/application.js
 import "./htmx-loader"
 import "htmx.org/dist/ext/method-override"
+import "htmx.org/dist/ext/ajax-header"
 ```
 
 ```javascript
