@@ -232,7 +232,7 @@ file and injecting `htmx` to the window scope on it:
 
 ```javascript
 // app/javascript/application.js
-import "./htmx-loader"
+import "./htmx-loader.js"
 import "htmx.org/dist/ext/method-override"
 import "htmx.org/dist/ext/ajax-header"
 ```
@@ -277,6 +277,8 @@ and then you can import the extensions in your entry file:
 import "htmx.org"
 import "htmx.org/dist/ext/method-override"
 ```
+
+For esbuild see the changes to the `application.js` in the [importmap-rails section](#importmap-rails) above.
 
 For webpack(er) read the [instructions in the htmx docs](https://htmx.org/docs/#webpack)
 
