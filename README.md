@@ -27,7 +27,7 @@ Instead is recommended to install htmx from the official sources:
 Add the script to your application.html.erb layout file:
 
 ```html
-<script src="https://unpkg.com/htmx.org@1.9.3" integrity="sha384-lVb3Rd/Ca0AxaoZg5sACe8FJKF0tnUgR2Kd7ehUOG5GCcROv5uBIZsOqovBAcWua" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/htmx.org@1.9.5" integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO" crossorigin="anonymous"></script>
 ```
 
 Check the [htmx docs](https://htmx.org/docs/#installing) to make sure that you're using the latest
@@ -44,7 +44,7 @@ yarn add htmx.org
 and then import it on your `app/javascript/application.js`:
 
 ```javascript
-import htmx from "htmx.org"
+import "htmx.org"
 ```
 
 ### Using Import Maps (e.g importmap-rails)
@@ -58,7 +58,7 @@ bin/importmap pin htmx.org
 and then import it on your `app/javascript/application.js`:
 
 ```javascript
-import htmx from "htmx.org"
+import "htmx.org"
 ```
 
 ## Usage
@@ -212,75 +212,45 @@ behavior can be changed using one of the next options:
 
 ### Using htmx extensions in module environments.
 
-This will be fixed when [this pull request](https://github.com/bigskysoftware/htmx/pull/1485) get merge in the htmx repository.
-Meanwhile we need to inject the htmx variable on the window scope to use htmx extensions:
-
 #### importmap-rails
 
-In order to get the extensions working you need to pin the extensions in your `config/importmap.rb`
-and provide to the extensions a way to understand the `htmx` variable:
+In order to get the extensions working you need to pin the extensions in your `config/importmap.rb`:
 
 ```ruby
 # config/importmap.rb
 # ...
-pin "htmx.org", to: "https://ga.jspm.io/npm:htmx.org@1.9.3/dist/htmx.min.js"
-pin "htmx.org/dist/ext/", to: "https://unpkg.com/htmx.org/dist/ext/"
+pin "htmx.org", to: "https://unpkg.com/htmx.org@1.9.5"
+pin "htmx.org/dist/ext/", to: "https://unpkg.com/htmx.org@1.9.5/dist/ext/"
 ```
 
-You need to load `htmx` globally before of importing the extensions, this can be done creating a custom
-file and injecting `htmx` to the window scope on it:
-
-```javascript
-// app/javascript/application.js
-import "./htmx-loader.js"
-import "htmx.org/dist/ext/method-override"
-import "htmx.org/dist/ext/ajax-header"
-```
-
-```javascript
-// app/javascript/htmx-loader.js
-import htmx from "htmx.org"
-window.htmx = htmx
-```
-
-#### jsbundling-rails
-
-Tip: In order to get the extensions working you need to inject the `htmx` variable globally,
-e.g if you are using Rollup you can use the `inject` plugin:
-
-```javascript
-// rollup.config.js
-import resolve from "@rollup/plugin-node-resolve"
-import inject from "@rollup/plugin-inject"
-
-export default {
-  input: "app/javascript/application.js",
-  output: {
-    file: "app/assets/builds/application.js",
-    format: "iife",
-    inlineDynamicImports: true,
-    sourcemap: true
-  },
-  plugins: [
-    resolve(),
-    inject({
-      "htmx.org": "htmx"
-    })
-  ]
-}
-```
-
-and then you can import the extensions in your entry file:
+Then you can load extensions in your application.js:
 
 ```javascript
 // app/javascript/application.js
 import "htmx.org"
 import "htmx.org/dist/ext/method-override"
+import "htmx.org/dist/ext/ajax-header"
 ```
 
-For esbuild see the changes to the `application.js` in the [importmap-rails section](#importmap-rails) above.
+#### jsbundling-rails
 
-For webpack(er) read the [instructions in the htmx docs](https://htmx.org/docs/#webpack)
+Using rollup does not require any changes.
+
+For esbuild and webpack you need to load `htmx` globally before of importing the extensions, this can be done creating a custom
+file and injecting `htmx` to the window scope on it:
+
+```javascript
+// app/javascript/application.js
+import "./htmx.js"
+import "htmx.org/dist/ext/method-override"
+import "htmx.org/dist/ext/ajax-header"
+```
+
+```javascript
+// app/javascript/htmx.js
+import htmx from "htmx.org"
+window.htmx = htmx
+```
 
 ## License
 rails-htmx is released under the [MIT License](https://opensource.org/license/mit/).
